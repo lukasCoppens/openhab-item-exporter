@@ -59,6 +59,7 @@ func syncState(client *openhab.Client) error {
 		return err
 	}
 	logrus.Infof("Found %d items", len(items))
+	stateMetric.Reset()
 	for _, item := range items {
 		intState := item.GetIntState()
 		stateMetric.With(prometheus.Labels{"name": item.Name, "state": item.State, "type": item.Type, "groups": strings.Join(item.GroupNames, ","), "tags": strings.Join(item.Tags, ",")}).Set(float64(intState))
