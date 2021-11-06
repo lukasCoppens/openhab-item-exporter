@@ -2,7 +2,8 @@ FROM golang:1.17 AS build
 
 WORKDIR /go/src/github.com/lukasCoppens/openhab-item-exporter
 COPY . .
-RUN go build -v ./...
+RUN go mod vendor && go build -v .
+RUN ls -l
 
 FROM alpine:latest AS final
 COPY --from=0 /go/src/github.com/lukasCoppens/openhab-item-exporter/openhab-item-exporter /bin/openhab-item-exporter
